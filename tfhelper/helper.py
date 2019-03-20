@@ -93,7 +93,7 @@ class Summary:
             var = None
         else:
             stats, var = sess.run([self.stats, var_list])
-            self.filewriter.add_summary(stats)
+            self.filewriter.add_summary(stats, global_step)
         tf.logging.info('Saved summary at {} '.format(global_step))
         return var
 
