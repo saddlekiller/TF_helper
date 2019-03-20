@@ -27,9 +27,9 @@ class Summary:
         if len(self._summary_dict['audio'].keys()) > 0 and self.sampling_rate is None:
             raise ValueError
         for _scope, values in self._summary_dict['audio'].items():
-            for _name, _tensor in values:
-                _name = _name.replace(':', '_')
-                with tf.variable_scope(_scope):
+            with tf.variable_scope(_scope):
+                for _name, _tensor in values:
+                    _name = _name.replace(':', '_')
                     if len(_tensor.get_shape().as_list()) == 3:
                         _tensor = tf.squeeze(_tensor, -1)
                     elif len(_tensor.get_shape().as_list()) == 1:
@@ -39,9 +39,9 @@ class Summary:
                         raise ValueError
                     tf.summary.audio(_name, _tensor, self.sampling_rate, max_outputs=self.max_outputs)
         for _scope, values in self._summary_dict['image'].items():
-            for _name, _tensor in values:
-                _name = _name.replace(':', '_')
-                with tf.variable_scope(_scope):
+            with tf.variable_scope(_scope):
+                for _name, _tensor in values:
+                    _name = _name.replace(':', '_')
                     if len(_tensor.get_shape().as_list()) == 2:
                         _tensor = tf.expand_dims(_tensor, 0)
                         _tensor = tf.expand_dims(_tensor, -1)
@@ -55,8 +55,8 @@ class Summary:
                     tf.summary.image(_name, _tensor, max_outputs=self.max_outputs)
         for _scope, values in self._summary_dict['histogram'].items():
             for _name, _tensor in values:
-                _name = _name.replace(':', '_')
                 with tf.variable_scope(_scope):
+                    _name = _name.replace(':', '_')
                     if len(_tensor.get_shape().as_list()) == 2:
                         _tensor = tf.expand_dims(_tensor, 0)
                         _tensor = tf.expand_dims(_tensor, -1)
@@ -72,8 +72,8 @@ class Summary:
                     tf.summary.histogram(_name, _tensor)
         for _scope, values in self._summary_dict['scalar'].items():
             for _name, _tensor in values:
-                _name = _name.replace(':', '_')
                 with tf.variable_scope(_scope):
+                    _name = _name.replace(':', '_')
                     if len(_tensor.get_shape().as_list()) == 0 or len(_tensor.get_shape().as_list()) == 1:
                         pass
                     else:
