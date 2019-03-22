@@ -54,8 +54,8 @@ class Summary:
                         raise ValueError
                     tf.summary.image(_name, _tensor, max_outputs=self.max_outputs)
         for _scope, values in self._summary_dict['histogram'].items():
-            for _name, _tensor in values:
-                with tf.variable_scope(_scope):
+            with tf.variable_scope(_scope):
+                for _name, _tensor in values:
                     _name = _name.replace(':', '_')
                     if len(_tensor.get_shape().as_list()) == 2:
                         _tensor = tf.expand_dims(_tensor, 0)
@@ -71,8 +71,8 @@ class Summary:
                         raise ValueError
                     tf.summary.histogram(_name, _tensor)
         for _scope, values in self._summary_dict['scalar'].items():
-            for _name, _tensor in values:
-                with tf.variable_scope(_scope):
+            with tf.variable_scope(_scope):
+                for _name, _tensor in values:
                     _name = _name.replace(':', '_')
                     if len(_tensor.get_shape().as_list()) == 0 or len(_tensor.get_shape().as_list()) == 1:
                         pass
